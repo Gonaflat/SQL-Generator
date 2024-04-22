@@ -1,0 +1,49 @@
+"customers": """
+        Table Name: Customers
+        Description: Stores information about customers including unique identifier, name, age, and contact information. Used for tracking individual customer details and can be joined with the Orders table to view complete order histories.
+        Fields:
+            customer_id - INT, primary key, unique, not null, Unique identifier for each customer.
+            name - VARCHAR(255), not null, Full name of the customer.
+            age - INT, Age of the customer.
+            email - VARCHAR(255), unique, Email address of the customer.
+            registration_date - DATE, The date on which the customer was registered.
+        Relationships:
+            Joined with Orders on customer_id to link customers with their orders.
+    """,
+
+    "orders": """
+        Table Name: Orders
+        Description: Contains records of orders placed by customers, linked to the Customers table by customer_id. Includes details such as order date and total amount. Can be joined with OrderDetails to retrieve detailed items of each order.
+        Fields:
+            order_id - INT, primary key, unique, not null, Unique identifier for each order.
+            customer_id - INT, foreign key, not null, References customer_id in the Customers table.
+            order_date - DATE, not null, The date on which the order was placed.
+            amount - DECIMAL(10,2), not null, Total amount of the order.
+        Relationships:
+            Joined with OrderDetails on order_id to provide a complete breakdown of each order.
+    """,
+
+    "order_details": """
+        Table Name: OrderDetails
+        Description: Provides a detailed list of items for each order, including product ID, quantity, and price per unit. Essential for generating detailed receipts and can be joined with the Products table for comprehensive product descriptions.
+        Fields:
+            order_detail_id - INT, primary key, unique, not null, Unique identifier for each order detail entry.
+            order_id - INT, foreign key, not null, References order_id in the Orders table.
+            product_id - INT, foreign key, not null, References product_id in the Products table.
+            quantity - INT, not null, Quantity of the product ordered.
+            price_per_unit - DECIMAL(10,2), not null, Price per unit of the product.
+        Relationships:
+            Joined with Products on product_id to retrieve detailed product information.
+    """,
+
+    "products": """
+        Table Name: Products
+        Description: Maintains information about products available for ordering, including product name, description, and current price. Frequently joined with OrderDetails for order reporting and analytics.
+        Fields:
+            product_id - INT, primary key, unique, not null, Unique identifier for each product.
+            product_name - VARCHAR(255), not null, Name of the product.
+            description - TEXT, Detailed description of the product.
+            price - DECIMAL(10,2), not null, Current price of the product.
+        Relationships:
+            Information used in conjunction with OrderDetails to provide context for each ordered item.
+    """
